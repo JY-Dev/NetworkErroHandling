@@ -4,8 +4,6 @@ import android.util.Log
 import com.example.networkerrohandling.data.datasource.JwtRefresh
 import com.example.networkerrohandling.data.model.NetworkResult
 import com.example.networkerrohandling.data.model.Response
-import com.example.networkerrohandling.exception.JwtRefreshException
-import com.example.networkerrohandling.exception.TokenExpireException
 import java.lang.Exception
 
 const val REST_CODE_NO_SEARCH_MOVIE = "C000"

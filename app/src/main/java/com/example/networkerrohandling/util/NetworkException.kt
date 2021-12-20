@@ -1,4 +1,4 @@
-package com.example.networkerrohandling.exception
+package com.example.networkerrohandling.util
 
 import java.lang.Exception
 
