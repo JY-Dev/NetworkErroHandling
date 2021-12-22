@@ -23,9 +23,9 @@ fun <T> Response<T>.toNetworkResult() : NetworkResult<T> {
 fun <T, R> NetworkResult<T>.replaceData(replaceData: R): NetworkResult<R> {
     return when (this) {
         is NetworkResult.Success -> NetworkResult.Success(replaceData)
-        is NetworkResult.Exception -> NetworkResult.Exception(exception)
-        is NetworkResult.Fail -> NetworkResult.Fail(message)
-        is NetworkResult.TokenExpired -> NetworkResult.TokenExpired
+        is NetworkResult.Exception -> this
+        is NetworkResult.Fail -> this
+        is NetworkResult.TokenExpired -> this
     }
 }
 
