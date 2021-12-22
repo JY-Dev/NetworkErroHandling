@@ -6,6 +6,8 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.networkerrohandling.data.model.NetworkResult
+import com.example.networkerrohandling.util.replaceData
 
 class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by lazy {

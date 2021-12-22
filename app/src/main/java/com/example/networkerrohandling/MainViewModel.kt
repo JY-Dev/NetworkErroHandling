@@ -21,8 +21,6 @@ class MainViewModel(private val movieRepository: MovieRepository) : BaseViewMode
             movieRepository.getMovieJwtRefresh()
         }, success = {
             _movie.value = it
-        }, refresh = {
-            getMovieJwtRefresh()
         }, "영화 가져오기")
     }
 

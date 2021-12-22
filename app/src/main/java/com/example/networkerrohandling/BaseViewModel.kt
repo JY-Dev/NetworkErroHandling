@@ -15,12 +15,11 @@ open class BaseViewModel : ViewModel() {
     private val _tokenExpire = SingleLiveEvent<Unit>()
     val tokenExpire: LiveData<Unit> = _tokenExpire
 
-    fun <T> getApiResult(apiResult: suspend () -> NetworkResult<T>, success : (T) -> Unit ,refresh: (() -> Unit)? = null,title : String) {
+    fun <T> getApiResult(apiResult: suspend () -> NetworkResult<T>, success : (T) -> Unit,title : String) {
         viewModelScope.launch {
             when(val networkResult = apiResult()){
                 is NetworkResult.Success -> success(networkResult.data)
                 is NetworkResult.TokenExpired -> _tokenExpire.call()
-                is NetworkResult.JwtRefresh -> refresh?.invoke()
                 is NetworkResult.Exception -> {
                     val errorMessage = networkResult.exception.message?:""
                     _errorMessage.value = "예외발생" to errorMessage

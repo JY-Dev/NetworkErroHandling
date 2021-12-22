@@ -20,6 +20,15 @@ fun <T> Response<T>.toNetworkResult() : NetworkResult<T> {
     }
 }
 
+fun <T, R> NetworkResult<T>.replaceData(replaceData: R): NetworkResult<R> {
+    return when (this) {
+        is NetworkResult.Success -> NetworkResult.Success(replaceData)
+        is NetworkResult.Exception -> NetworkResult.Exception(exception)
+        is NetworkResult.Fail -> NetworkResult.Fail(message)
+        is NetworkResult.TokenExpired -> NetworkResult.TokenExpired
+    }
+}
+
 suspend fun <T> networkHandling(block : suspend () -> NetworkResult<T>) : NetworkResult<T> {
     return try {
         block()
@@ -28,7 +37,7 @@ suspend fun <T> networkHandling(block : suspend () -> NetworkResult<T>) : Networ
             is JwtRefreshException -> {
                 JwtRefresh.isJwtRefresh = true
                 Log.d("Network Exception","JwtRefreshException")
-                NetworkResult.JwtRefresh
+                networkHandling { block() }
             }
             is TokenExpireException -> {
                 Log.d("Network Exception","TokenExpireException")
