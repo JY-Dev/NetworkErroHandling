@@ -29,6 +29,13 @@ class MovieRepository(private val movieDataSource: MovieDataSource) {
         throw UnknownHostException("UnknownException")
     }
 
+    suspend fun getMovieDetailTokenExpire(): NetworkResult<MovieDetail> {
+        val movieResponseNetworkResult = movieDataSource.getMovieDetailTokenExpire()
+        return movieResponseNetworkResult.mapNetworkResult {
+            it.toDomainModel()
+        }
+    }
+
     suspend fun getMovieJwtRefresh() : NetworkResult<Movie> {
         val movieResponseNetworkResult = movieDataSource.getMoviesJwtRefresh()
         return movieResponseNetworkResult.mapNetworkResult {

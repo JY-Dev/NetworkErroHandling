@@ -29,6 +29,10 @@ class MovieDataSource {
         return movieResponse.getTokenExpireResponse().toNetworkResult()
     }
 
+    suspend fun getMovieDetailTokenExpire(): NetworkResult<MovieDetailResponse> {
+        return movieDetailResponse.getTokenExpireResponse().toNetworkResult()
+    }
+
     suspend fun getMoviesFailMessage(): NetworkResult<MovieResponse> {
         return movieResponse.getFailMessageResponse().toNetworkResult()
     }

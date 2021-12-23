@@ -37,9 +37,9 @@ suspend fun <T,R> NetworkResult<T>.map(getData : suspend (T) -> R) : R{
     return getData(data)
 }
 
-suspend fun <T> networkHandling(block : suspend () -> NetworkResult<T>) : NetworkResult<T> {
+suspend fun <T> networkHandling(block : suspend () -> T) : NetworkResult<T> {
     return try {
-        block()
+        NetworkResult.Success(block())
     } catch (e : Exception){
         when(e){
             is JwtRefreshException -> {
