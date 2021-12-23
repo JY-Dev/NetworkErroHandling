@@ -6,8 +6,6 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.networkerrohandling.data.model.NetworkResult
-import com.example.networkerrohandling.util.replaceData
 
 class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by lazy {
@@ -37,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.exception_button).setOnClickListener {
             mainViewModel.getMovieException()
         }
+        findViewById<Button>(R.id.movie_info_button).setOnClickListener {
+            mainViewModel.getMovieInfo()
+        }
     }
 
     private fun observeData() {
@@ -53,6 +54,9 @@ class MainActivity : AppCompatActivity() {
         }
         mainViewModel.movie.observe(this) {
             showDialog(it.title, it.description) {}
+        }
+        mainViewModel.movieInfo.observe(this){
+            println("데이터는:$it")
         }
     }
 

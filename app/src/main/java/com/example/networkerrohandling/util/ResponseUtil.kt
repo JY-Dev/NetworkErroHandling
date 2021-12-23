@@ -1,10 +1,6 @@
-package com.example.networkerrohandling
+package com.example.networkerrohandling.util
 
 import com.example.networkerrohandling.data.model.Response
-import com.example.networkerrohandling.util.REST_CODE_ERROR_JWT_REFRESH
-import com.example.networkerrohandling.util.REST_CODE_ERROR_TOKEN_EXPIRED
-import com.example.networkerrohandling.util.REST_CODE_NO_SEARCH_MOVIE
-import com.example.networkerrohandling.util.REST_SUCCESS
 
 fun <T> T.getTokenExpireResponse() : Response<T> {
     return Response(false, REST_CODE_ERROR_TOKEN_EXPIRED,"",this)

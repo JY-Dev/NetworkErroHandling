@@ -20,13 +20,21 @@ fun <T> Response<T>.toNetworkResult() : NetworkResult<T> {
     }
 }
 
-fun <T, R> NetworkResult<T>.replaceData(replaceData: R): NetworkResult<R> {
-    return when (this) {
-        is NetworkResult.Success -> NetworkResult.Success(replaceData)
-        is NetworkResult.Exception -> this
-        is NetworkResult.Fail -> this
-        is NetworkResult.TokenExpired -> this
-    }
+private fun <R> changeNetworkData(replaceData: R): NetworkResult<R> {
+    return NetworkResult.Success(replaceData)
+}
+
+@Suppress("UNCHECKED_CAST")
+suspend fun <T,R> NetworkResult<T>.mapNetworkResult(getData : suspend (T) -> R) : NetworkResult<R>{
+    return if(this is NetworkResult.Success)
+        changeNetworkData(getData(data))
+    else
+        this as NetworkResult<R>
+}
+
+suspend fun <T,R> NetworkResult<T>.map(getData : suspend (T) -> R) : R{
+    val data = (this as NetworkResult.Success).data
+    return getData(data)
 }
 
 suspend fun <T> networkHandling(block : suspend () -> NetworkResult<T>) : NetworkResult<T> {

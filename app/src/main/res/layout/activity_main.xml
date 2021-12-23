@@ -52,4 +52,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <Button
+        android:id="@+id/movie_info_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="무비 Info"
+        app:layout_constraintTop_toBottomOf="@id/exception_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
