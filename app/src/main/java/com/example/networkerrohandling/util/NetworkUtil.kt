@@ -16,7 +16,7 @@ fun <T> Response<T>.toNetworkResult() : NetworkResult<T> {
         REST_SUCCESS -> NetworkResult.Success(data)
         REST_CODE_ERROR_JWT_REFRESH -> throw JwtRefreshException(message)
         REST_CODE_ERROR_TOKEN_EXPIRED -> throw TokenExpireException(message)
-        else -> NetworkResult.Fail(message)
+        else -> throw ServerFailException(message)
     }
 }
 
@@ -50,6 +50,9 @@ suspend fun <T> networkHandling(block : suspend () -> T) : NetworkResult<T> {
             is TokenExpireException -> {
                 Log.d("Network Exception","TokenExpireException")
                 NetworkResult.TokenExpired
+            }
+            is ServerFailException -> {
+                NetworkResult.Fail(e.message?:"")
             }
             else -> {
                 Log.d("Network Exception","UnknownException")
