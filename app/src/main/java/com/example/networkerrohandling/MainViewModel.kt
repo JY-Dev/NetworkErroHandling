@@ -5,13 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import com.example.networkerrohandling.data.repository.MovieRepository
 import com.example.networkerrohandling.domain.model.Movie
 import com.example.networkerrohandling.domain.model.MovieInfo
-import com.example.networkerrohandling.domain.usecase.MovieInfoUseCase
+import com.example.networkerrohandling.domain.usecase.*
 
-class MainViewModel(private val movieRepository: MovieRepository, private val movieInfoUseCase: MovieInfoUseCase) : BaseViewModel() {
+class MainViewModel(
+    private val movieRepository: MovieRepository,
+    private val movieInfoUseCase: MovieInfoUseCase,
+    private val movieFailUseCase: MovieFailUseCase,
+    private val movieTokenExpireUseCase: MovieTokenExpireUseCase,
+    private val movieJwtRefreshUseCase: MovieJwtRefreshUseCase,
+    private val movieExceptionUseCase: MovieExceptionUseCase
+) : BaseViewModel() {
     private val _movie = MutableLiveData<Movie>()
-    val movie : LiveData<Movie> = _movie
+    val movie: LiveData<Movie> = _movie
     private val _movieInfo = MutableLiveData<MovieInfo>()
-    val movieInfo : LiveData<MovieInfo> = _movieInfo
+    val movieInfo: LiveData<MovieInfo> = _movieInfo
     fun getMovie() {
         getApiResult({
             movieRepository.getMovie()
@@ -30,7 +37,7 @@ class MainViewModel(private val movieRepository: MovieRepository, private val mo
 
     fun getMovieJwtRefresh() {
         getApiResult({
-            movieRepository.getMovieJwtRefresh()
+            movieJwtRefreshUseCase()
         }, success = {
             _movie.value = it
         }, "영화 가져오기")
@@ -38,25 +45,25 @@ class MainViewModel(private val movieRepository: MovieRepository, private val mo
 
     fun getMovieTokenExpire() {
         getApiResult({
-            movieRepository.getMovieTokenExpire()
+            movieTokenExpireUseCase()
         }, success = {
             _movie.value = it
-        }, title ="영화 가져오기")
+        }, title = "영화 가져오기")
     }
 
     fun getMovieFailMessage() {
         getApiResult({
-            movieRepository.getMovieFailMessage()
+            movieFailUseCase()
         }, success = {
             _movie.value = it
-        }, title ="영화 가져오기")
+        }, title = "영화 가져오기")
     }
 
     fun getMovieException() {
         getApiResult({
-            movieRepository.getMovieException()
+            movieExceptionUseCase()
         }, success = {
             _movie.value = it
-        }, title ="영화 가져오기")
+        }, title = "영화 가져오기")
     }
 }

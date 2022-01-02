@@ -24,16 +24,16 @@ private fun <R> changeNetworkData(replaceData: R): NetworkResult<R> {
     return NetworkResult.Success(replaceData)
 }
 
-@Suppress("UNCHECKED_CAST")
 suspend fun <T,R> NetworkResult<T>.mapNetworkResult(getData : suspend (T) -> R) : NetworkResult<R>{
-    return if(this is NetworkResult.Success)
-        changeNetworkData(getData(data))
-    else
-        this as NetworkResult<R>
+    return changeNetworkData(getData(toModel()))
 }
 
+fun <T> NetworkResult<T>.toModel() : T =
+    (this as NetworkResult.Success).data
+
+
 suspend fun <T,R> NetworkResult<T>.map(getData : suspend (T) -> R) : R{
-    val data = (this as NetworkResult.Success).data
+    val data = toModel()
     return getData(data)
 }
 

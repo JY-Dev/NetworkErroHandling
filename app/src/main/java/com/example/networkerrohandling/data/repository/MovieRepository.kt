@@ -3,7 +3,6 @@ package com.example.networkerrohandling.data.repository
 import com.example.networkerrohandling.data.model.NetworkResult
 import com.example.networkerrohandling.data.datasource.MovieDataSource
 import com.example.networkerrohandling.data.mapper.toDomainModel
-import com.example.networkerrohandling.data.model.MovieDetailResponse
 import com.example.networkerrohandling.domain.model.Movie
 import com.example.networkerrohandling.domain.model.MovieDetail
 import com.example.networkerrohandling.util.*
@@ -14,8 +13,7 @@ class MovieRepository(private val movieDataSource: MovieDataSource) {
         val movieResponseNetworkResult = movieDataSource.getMovies()
         return movieResponseNetworkResult.mapNetworkResult {
                 it.toDomainModel()
-            }
-
+        }
     }
 
     suspend fun getMovieDetail() : NetworkResult<MovieDetail> {
