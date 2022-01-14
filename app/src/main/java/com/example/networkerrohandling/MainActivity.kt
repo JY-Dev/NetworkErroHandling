@@ -2,15 +2,24 @@ package com.example.networkerrohandling
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.transition.Visibility
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by lazy {
         ViewModelProvider(this, MainViewModelFactory()).get(MainViewModel::class.java)
     }
+    private val loadingQueue : Queue<Boolean> = LinkedList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +67,9 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.movieInfo.observe(this){
             println("데이터는:$it")
         }
+        mainViewModel.loading.observe(this){
+            controlProgress(it)
+        }
     }
 
     private fun showDialog(title: String, message: String, onClick: () -> Unit) {
@@ -71,6 +83,28 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun controlProgress(isShowing : Boolean){
+        val progress = findViewById<ProgressBar>(R.id.progress)
+        if(progress.visibility == View.GONE && isShowing){
+            progress.visibility = View.VISIBLE
+            return
+        }
+        if(progress.visibility == View.VISIBLE){
+            if(isShowing) loadingQueue.offer(true)
+            else {
+                if(loadingQueue.isNotEmpty())
+                    loadingQueue.poll()
+                else
+                    progress.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun clearProgress(){
+        loadingQueue.clear()
+        controlProgress(false)
     }
 
 }

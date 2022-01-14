@@ -6,11 +6,17 @@ import com.example.networkerrohandling.data.mapper.toDomainModel
 import com.example.networkerrohandling.domain.model.Movie
 import com.example.networkerrohandling.domain.model.MovieDetail
 import com.example.networkerrohandling.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
 class MovieRepository(private val movieDataSource: MovieDataSource) {
     suspend fun getMovie() : NetworkResult<Movie> {
         val movieResponseNetworkResult = movieDataSource.getMovies()
+        withContext(Dispatchers.IO){
+            delay(2000L)
+        }
         return movieResponseNetworkResult.mapNetworkResult {
                 it.toDomainModel()
         }

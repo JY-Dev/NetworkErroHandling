@@ -24,7 +24,7 @@ class MainViewModel(
             movieRepository.getMovie()
         }, success = {
             _movie.value = it
-        }, title = "영화 가져오기")
+        },showLoading = true, title = "영화 가져오기")
     }
 
     fun getMovieInfo() {
@@ -32,7 +32,7 @@ class MainViewModel(
             movieInfoUseCase()
         }, success = {
             _movieInfo.value = it
-        }, title = "영화 상세 가져오기")
+        },showLoading = false, title = "영화 상세 가져오기")
     }
 
     fun getMovieJwtRefresh() {
@@ -40,7 +40,7 @@ class MainViewModel(
             movieJwtRefreshUseCase()
         }, success = {
             _movie.value = it
-        }, "영화 가져오기")
+        },showLoading = true, "영화 가져오기")
     }
 
     fun getMovieTokenExpire() {
@@ -48,7 +48,7 @@ class MainViewModel(
             movieTokenExpireUseCase()
         }, success = {
             _movie.value = it
-        }, title = "영화 가져오기")
+        },showLoading = true, title = "영화 가져오기")
     }
 
     fun getMovieFailMessage() {
@@ -56,7 +56,7 @@ class MainViewModel(
             movieFailUseCase()
         }, success = {
             _movie.value = it
-        }, title = "영화 가져오기")
+        },showLoading = true, title = "영화 가져오기")
     }
 
     fun getMovieException() {
@@ -64,6 +64,6 @@ class MainViewModel(
             movieExceptionUseCase()
         }, success = {
             _movie.value = it
-        }, title = "영화 가져오기")
+        },showLoading = true, title = "영화 가져오기")
     }
 }
